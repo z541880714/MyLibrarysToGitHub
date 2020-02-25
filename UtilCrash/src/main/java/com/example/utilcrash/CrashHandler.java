@@ -19,7 +19,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private static final String TAG = "CrashHandler";
     private static final boolean DEBUG = true;
 
-    private static final String PATH = Environment.getExternalStorageDirectory().getPath() + "/qh/crash/";
+    private String PATH = "";
     private static final String FILE_NAME = "crash";
 
     //log文件的后缀名
@@ -41,13 +41,15 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     }
 
     //这里主要完成初始化工作
-    public void init(Context context) {
+    public void init(Context context, String path) {
         //获取系统默认的异常处理器
         mDefaultCrashHandler = Thread.getDefaultUncaughtExceptionHandler();
         //将当前实例设为系统默认的异常处理器
         Thread.setDefaultUncaughtExceptionHandler(this);
         //获取Context，方便内部使用
         mContext = context.getApplicationContext();
+
+        this.PATH = path;
     }
 
     /**
