@@ -19,7 +19,8 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     private static final String TAG = "CrashHandler";
     private static final boolean DEBUG = true;
 
-    private String PATH = "";
+
+    private String PATH = null;
     private static final String FILE_NAME = "crash";
 
     //log文件的后缀名
@@ -96,7 +97,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         String time_day = new SimpleDateFormat("yyyy-MM-dd").format(new Date(current));
         String time_second = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(current));
         //以当前时间创建log文件
-        File file = new File(PATH + FILE_NAME + time_day + FILE_NAME_SUFFIX);
+        File file = new File(PATH + "/" + FILE_NAME + time_day + FILE_NAME_SUFFIX);
 
         try {
             //new FileWriter 后面加一个 true, 表示连接前文继续打印, 否则将会清楚掉之前的内容
