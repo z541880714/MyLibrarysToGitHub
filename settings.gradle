@@ -1,2 +1,3 @@
+include ':ZUtil'
 include ':app', ':UtilCrash'
 rootProject.name='MyLibrarysToGitHub'
