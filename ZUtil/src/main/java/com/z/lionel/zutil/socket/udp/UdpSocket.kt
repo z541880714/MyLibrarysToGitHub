@@ -17,7 +17,7 @@ import kotlin.concurrent.thread
  * 对应的 ip/port  都会实时的传过来的...
  *
  */
-class UdpSocket(val localPort: Int/*需要监听的本地端口..*/) : ZSocket {
+class UdpSocket(val localPort: Int/*需要监听的本地端口..*/, callback: (DatagramPacket) -> Unit) : ZSocket {
     private val BUFFER_LENGTH = 1024 * 2
     private lateinit var socketChannel: DatagramChannel
 
@@ -78,7 +78,7 @@ class UdpSocket(val localPort: Int/*需要监听的本地端口..*/) : ZSocket {
 
     //回调函数, 需要调用此接口, 否则, 数据将不做处理..
     //不负责任何其他的处理, 如果需要队列, 需要自行封装.
-    val receiveCallback = { p: DatagramPacket -> }
+    val receiveCallback = callback
 
     fun sendMessage(p: DatagramPacket) {
         if (!isWorking) return
