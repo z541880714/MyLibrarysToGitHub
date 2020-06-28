@@ -25,8 +25,6 @@ class UdpSocket(val localPort: Int/*需要监听的本地端口..*/, callback: (
      * 工作线程.. 用来 接受消息用的...
      */
     private var workThread: Thread? = null
-
-
     private var isWorking: Boolean = false
 
     /**

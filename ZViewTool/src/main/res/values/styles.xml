@@ -1,0 +1,39 @@
+<resources>
+
+    <style name="mydialogstyle">
+        <!-- 背景透明 -->
+        <!-- <item name="android:windowBackground">@android:color/transparent</item>-->
+        <!--边框-->
+        <item name="android:windowFrame">@null</item>
+        <!--是否浮现在activity之上-->
+        <item name="android:windowIsFloating">true</item>
+        <!--半透明-->
+        <item name="android:windowIsTranslucent">false</item>
+        <!--无标题-->
+        <item name="android:windowNoTitle">true</item>
+        <!--模糊 ,画面昏暗-->
+        <item name="android:backgroundDimEnabled">false</item>
+        <!--dialog去黑边,黑角的关键属性-->
+        <item name="android:windowContentOverlay">@null</item>
+
+        <!--//进入时的动画-->
+        <!--<item name="android:windowEnterAnimation">@anim/left_in</item>-->
+        <!--//退出时的动画-->
+        <!-- <item name="android:windowExitAnimation">@anim/left_out</item>-->
+
+        <!--<item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>-->
+        <!--<item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>-->
+        <!--<item name="android:windowActionModeOverlay">true</item>-->
+        <!--<item name="android:colorBackgroundCacheHint">@null</item>-->
+
+    </style>
+
+    <!--弹窗动画-->
+    <style name="z_dialog_anim_style" parent="android:Animation">
+        <!--//进入时的动画-->
+        <item name="android:windowEnterAnimation">@anim/left_in</item>
+        <!--//退出时的动画-->
+        <item name="android:windowExitAnimation">@anim/right_out</item>
+    </style>
+
+</resources>

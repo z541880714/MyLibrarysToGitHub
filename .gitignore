@@ -1,4 +1,6 @@
 .gradle/
 .idea/
 *.iml
-UtilCrash/build/
+ZViewTool/build/
+build/
+
