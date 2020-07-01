@@ -30,14 +30,14 @@ public class CustomDialogOut extends Dialog {
     private boolean allowTouchOutSide = false;
 
 
-    public CustomDialogOut (Context context) {
+    CustomDialogOut(Context context) {
         this(context, R.style.mydialogstyle);
     }
 
     /**
      * @param context
      */
-    public CustomDialogOut (Context context, View view) {
+    CustomDialogOut(Context context, View view) {
         super(context, R.style.mydialogstyle);    //自定义style主要去掉标题，标题将在setCustomView中自定义设置
         this.context = context;
         this.mView = view;
@@ -48,14 +48,14 @@ public class CustomDialogOut extends Dialog {
     /**
      * @param context
      */
-    public CustomDialogOut (Context context, View view, @StyleRes int theme) {
+    CustomDialogOut(Context context, View view, @StyleRes int theme) {
         super(context, theme);    //自定义style主要去掉标题，标题将在setCustomView中自定义设置
         this.context = context;
         this.mView = view;
         setCustomView();
     }
 
-    public CustomDialogOut (Context context, View view, OnCancelListener cancelListener) {
+    CustomDialogOut(Context context, View view, OnCancelListener cancelListener) {
         super(context, R.style.mydialogstyle);
         this.context = context;
         this.mView = view;
@@ -63,7 +63,7 @@ public class CustomDialogOut extends Dialog {
         setCustomView(view);
     }
 
-    public CustomDialogOut (Context context, int theme) {
+    CustomDialogOut(Context context, int theme) {
         super(context, theme);
         this.context = context;
         //        setCustomView();
@@ -71,7 +71,7 @@ public class CustomDialogOut extends Dialog {
 
     @Override
 
-    protected void onCreate (Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
 /*
@@ -85,7 +85,7 @@ public class CustomDialogOut extends Dialog {
         */
     }
 
-    public void setAllowTouchOutside (boolean isAllow) {
+    public void setAllowTouchOutside(boolean isAllow) {
         this.allowTouchOutSide = isAllow;
     }
 
@@ -94,7 +94,7 @@ public class CustomDialogOut extends Dialog {
      * @return
      */
     @Override
-    public boolean onTouchEvent (MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event) {
         /* 触摸外部弹窗 */
         if (isOutOfBounds(getContext(), event) && allowTouchOutSide) {
             //            onWindowFocusChanged(false);
@@ -108,21 +108,21 @@ public class CustomDialogOut extends Dialog {
     }
 
 
-    public void setFocusable (boolean focusable) {
+    public void setFocusable(boolean focusable) {
         if (focusable)
             getCurrentFocus();
         else
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
     }
 
-    private boolean isOutOfBounds (Context context, MotionEvent event) {
+    private boolean isOutOfBounds(Context context, MotionEvent event) {
         final int x = (int) event.getX();
         final int y = (int) event.getY();
         final int slop = ViewConfiguration.get(context).getScaledWindowTouchSlop();
         final View decorView = getWindow().getDecorView();
         return (x < -slop) || (y < -slop) || (x > (decorView.getWidth() + slop)) || (y >
-            (decorView.getHeight() + slop));
+                (decorView.getHeight() + slop));
     }
 
     /**
@@ -131,7 +131,7 @@ public class CustomDialogOut extends Dialog {
      * 改用Activity监听返回键
      */
     @Override
-    public void onBackPressed () {
+    public void onBackPressed() {
         super.onBackPressed();
 
     }
@@ -139,7 +139,7 @@ public class CustomDialogOut extends Dialog {
     /**
      * 设置整个弹出框的视图
      */
-    public void setCustomView (View mView) {
+    public void setCustomView(View mView) {
        /* Window w = getWindow();
         w.setContentView(mView);*/
         if (mView.getParent() != null) {
@@ -156,7 +156,7 @@ public class CustomDialogOut extends Dialog {
     /**
      * 设置整个弹出框的视图
      */
-    private void setCustomView () {
+    private void setCustomView() {
        /* Window w = getWindow();
         w.setContentView(mView);*/
         super.setContentView(mView);
@@ -166,7 +166,7 @@ public class CustomDialogOut extends Dialog {
     }
 
 
-    public void setWindowSize (int width, int height) {
+    public void setWindowSize(int width, int height) {
         // setContentView可以设置为一个View也可以简单地指定资源ID
         // LayoutInflater
         // li=(LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -218,7 +218,7 @@ public class CustomDialogOut extends Dialog {
     }
 
 
-    public void setWindowSize (Size windowSize) {
+    public void setWindowSize(Size windowSize) {
         Window window = getWindow();
         WindowManager.LayoutParams p = window.getAttributes(); // 获取对话框当前的参数值
         p.height = windowSize.getHeight();
@@ -231,7 +231,7 @@ public class CustomDialogOut extends Dialog {
      * @param x
      * @param y
      */
-    public void setPosition (int gravity, int x, int y) {
+    public void setPosition(int gravity, int x, int y) {
         Window dialogWindow = super.getWindow();
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         dialogWindow.setGravity(gravity);
@@ -241,7 +241,7 @@ public class CustomDialogOut extends Dialog {
     }
 
     @Override
-    public void setContentView (View view) {
+    public void setContentView(View view) {
         //重写本方法，使外部调用时不可破坏控件的视图。
         //也可以使用本方法改变CustomDialog的内容部分视图，比如让用户把内容视图变成复选框列表，图片等。这需要获取mView视图里的其它控件
         setCustomView(view);
@@ -249,7 +249,7 @@ public class CustomDialogOut extends Dialog {
 
 
     @Override
-    public void setTitle (int titleId) {
+    public void setTitle(int titleId) {
         setTitle(getContext().getString(titleId));
     }
 
@@ -257,7 +257,7 @@ public class CustomDialogOut extends Dialog {
     /**
      * @param v 测量指定View尺寸
      */
-    public int[] getViewSize (View v) {
+    public int[] getViewSize(View v) {
         int[] size = new int[2];
         //创建测量的规格. (初始化测量单位?)
         int width = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
@@ -275,7 +275,7 @@ public class CustomDialogOut extends Dialog {
      *
      * @return
      */
-    public int getDialogWidth () {
+    public int getDialogWidth() {
         int width = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         int height = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         mView.measure(width, height);
@@ -287,7 +287,7 @@ public class CustomDialogOut extends Dialog {
      *
      * @return
      */
-    public int getDialogHeight () {
+    public int getDialogHeight() {
         int width = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         int height = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         mView.measure(width, height);

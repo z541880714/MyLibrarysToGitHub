@@ -15,7 +15,7 @@ import com.example.viewTool.util.getStatusBarSize
  * author: Lionel
  * date: 2020-06-12 23:41
  */
-class ZDialog(context: Context) : CustomDialogOut(context) {
+public class ZDialog(context: Context) : CustomDialogOut(context) {
 
     private class ZDialogParam(val context: Context) {
 
@@ -79,7 +79,7 @@ class ZDialog(context: Context) : CustomDialogOut(context) {
             dialog.setContentView(p.contentView)
             dialog.setWindowSize(p.size)
             dialog.setPosition(p.gravity, p.offsetX, p.offsetY)
-            dialog.window.setWindowAnimations(p.animStyleRes)
+            dialog.window?.setWindowAnimations(p.animStyleRes)
             return dialog
         }
     }
