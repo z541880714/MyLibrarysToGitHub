@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import androidx.annotation.StyleRes;
 
 import com.example.viewTool.R;
 
@@ -48,7 +47,7 @@ public class CustomDialogOut extends Dialog {
     /**
      * @param context
      */
-    CustomDialogOut(Context context, View view, @StyleRes int theme) {
+    CustomDialogOut(Context context, View view,  int theme) {
         super(context, theme);    //自定义style主要去掉标题，标题将在setCustomView中自定义设置
         this.context = context;
         this.mView = view;
