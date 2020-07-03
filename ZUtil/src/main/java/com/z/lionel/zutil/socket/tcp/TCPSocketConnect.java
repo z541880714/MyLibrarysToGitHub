@@ -34,6 +34,7 @@ public class TCPSocketConnect implements Runnable {
     }
 
     public TCPSocketConnect(int portBind, TCPSocketCallback callback) {
+        port = portBind;
         mSocket = new TCPSocketFactory(callback);// 创建socket连接
         writeRunnable = new WriteRunnable();// 创建发送线程
         bind(port);
