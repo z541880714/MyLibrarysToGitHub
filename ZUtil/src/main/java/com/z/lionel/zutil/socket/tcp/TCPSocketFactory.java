@@ -33,6 +33,15 @@ public class TCPSocketFactory {
         this.callback = callback;
     }
 
+    public boolean bind(SocketAddress address) {
+        try {
+            mSocket.bind(address);
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
+    }
+
     /**
      * 连接网络服务器
      *

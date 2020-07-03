@@ -1,6 +1,10 @@
 package com.z.lionel.zutil.socket.tcp;
 
 import android.util.Log;
+
+import com.z.lionel.zutil.socket.NetUnit;
+
+import java.net.InetSocketAddress;
 import java.util.Vector;
 
 /**
@@ -19,7 +23,6 @@ public class TCPSocketConnect implements Runnable {
     private String ip = null;
     private int port = -1;
 
-
     /**
      * 创建连接
      *
@@ -28,6 +31,20 @@ public class TCPSocketConnect implements Runnable {
     public TCPSocketConnect(TCPSocketCallback callback) {
         mSocket = new TCPSocketFactory(callback);// 创建socket连接
         writeRunnable = new WriteRunnable();// 创建发送线程
+    }
+
+    public TCPSocketConnect(int portBind, TCPSocketCallback callback) {
+        mSocket = new TCPSocketFactory(callback);// 创建socket连接
+        writeRunnable = new WriteRunnable();// 创建发送线程
+        bind(port);
+    }
+
+
+    /**
+     * @return true :绑定成功, false: 绑定失败
+     */
+    private boolean bind(int port) {
+        return mSocket.bind(new InetSocketAddress(port));
     }
 
     @Override
