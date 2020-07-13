@@ -29,3 +29,55 @@ dependencies {
    // implementation 'androidx.annotation:annotation:1.1.0'
     testImplementation 'junit:junit:4.12'
 }
+project.tasks.whenTaskAdded { Task task ->
+    if (task.name == 'assembleRelease')
+        task.doLast {
+            moveAar()
+        }
+}
+
+def moveAar() {
+    copyAar()
+    deleteAar()
+}
+
+//将 aar 自动从build 目录 复制到 aarOut 目录下..
+def copyAar() {
+    println "copyArr_________________________"
+    String sourcePath = "${rootDir}/ZViewTool/build/outputs/aar"
+    String targetPath = "${rootDir}/output"
+    println "the source file's path is ${path}"
+    copy() {
+        CopySpec copySpec ->
+
+            //from 是一个方法，指定拷贝的源文件/文件夹>file("app/build/output/apk") 是方法的参数
+            from file(sourcePath)
+            //into 是一个方法：指定拷贝的目的地>拷贝到根工程的output目录下
+            into targetPath
+            //重命名拷贝的文件名字
+            rename {
+                String srcFileName ->
+                    String suffix
+                    if (srcFileName.contains("debug")) suffix = "debug"
+                    else suffix = "release"
+                    "ZViewTool_${suffix}.aar"
+            }
+
+            //移除不需要拷贝的内容
+            //${targetPath}/*debug.aar
+            exclude "**/*debug.aar"
+    }
+}
+
+def deleteAar() {
+    String sourcePath = "${rootDir}/ZViewTool/build/outputs/aar"
+    println "deleteAar_______________________________"
+    fileTree(sourcePath) { ConfigurableFileTree configurableFileTree ->
+        //遍历
+        configurableFileTree.visit { FileVisitDetails fileVisitDetails ->
+            //在这里操作文件...
+            println "the file's name is ${fileVisitDetails.getFile().path}"
+            delete(fileVisitDetails.getFile())
+        }
+    }
+}

@@ -8,7 +8,6 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
 
-
 /**
  * Socket连接操作类
  *
@@ -24,12 +23,15 @@ public class TCPSocketFactory {
     private TCPSocketCallback callback;// 信息回调接口
     private int timeOut = 1000 * 30;
 
+    private SocketAddress portBind;
+
     /**
      * 构造方法传入信息回调接口对象
      *
      * @param callback 回调接口
      */
     public TCPSocketFactory(TCPSocketCallback callback) {
+        mSocket = new Socket();
         this.callback = callback;
     }
 
@@ -42,6 +44,18 @@ public class TCPSocketFactory {
         return true;
     }
 
+    public Socket initSocket() {
+        Socket socket = new Socket();
+        if (portBind != null) {
+            try {
+                socket.bind(portBind);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return socket;
+    }
+
     /**
      * 连接网络服务器
      *
@@ -49,7 +63,7 @@ public class TCPSocketFactory {
      * @throws IOException
      */
     public void connect(String ip, int port) throws Exception {
-        mSocket = new Socket();
+        if (mSocket == null) mSocket = initSocket();
         SocketAddress address = new InetSocketAddress(ip, port);
         mSocket.connect(address, timeOut);// 连接指定IP和端口
         if (isConnected()) {
@@ -130,22 +144,14 @@ public class TCPSocketFactory {
      * @throws IOException
      */
     public void read() throws IOException {
-
-        String msg = null;
         byte[] temp;
         if (in != null) {
             int len = 0;// 读取长度
-
-//            Log.i("TCP", "readdddddddd: 111111");
             while ((len = in.read(buffer)) > 0) {
-//                Log.i("TCP", "readdddddddd: 2222");
                 temp = new byte[len];
                 System.arraycopy(buffer, 0, temp, 0, len);
-//                Log.i("zc", "readCommand:  " + CodeUtil.byte2hex(temp));
                 callback.tcp_receive(temp);// 调用回调接口传入得到的数据
-//                Log.i("TCP", "readdddddddd: 3333");
             }
-//            Log.i("TCP", "readdddddddd: 44444");
         }
     }
 

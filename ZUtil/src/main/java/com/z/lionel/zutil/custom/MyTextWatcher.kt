@@ -2,6 +2,8 @@ package com.z.lionel.zutil.custom
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.text.method.HideReturnsTransformationMethod
+import android.text.method.PasswordTransformationMethod
 import android.widget.EditText
 
 
@@ -17,6 +19,17 @@ var EditText.content: String
         setText(value)
     }
     get() = text.toString()
+
+
+/**
+ * 当编辑栏输入密码时, 可以调用此方法
+ */
+fun EditText.passWordVisible(isVisible: Boolean) {
+    transformationMethod = when (isVisible) {
+        true -> HideReturnsTransformationMethod.getInstance()
+        false -> PasswordTransformationMethod.getInstance()
+    }
+}
 
 
 class MyTextWatcher(val callback: (String) -> Unit) : TextWatcher {

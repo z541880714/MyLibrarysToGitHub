@@ -14,7 +14,7 @@ import java.util.Vector;
  */
 public class TCPSocketConnect implements Runnable {
 
-    public boolean isWorking = false;// 是否连接服务器
+    public boolean isWorking = false;// 工作状态...
     private boolean isWrite = false;// 是否发送数据
     private static Vector<byte[]> datas = new Vector<byte[]>();// 待发送数据队列
     private final Object lock = new Object();// 连接锁对象
@@ -82,7 +82,10 @@ public class TCPSocketConnect implements Runnable {
                 Log.e("TCP", ">TCP连接异常<", e);
             } finally {
                 Log.e("TCP", ">TCP连接中断<");
-                resetConnect(2);// 断开连接
+                //如果还在工作就重新连接,  如果不需要,,就 ...不在重新连接
+                //即如果调用了 disconnect  就没有了...
+                if (isWorking)
+                    resetConnect(2);// 断开连接
             }
         }
         Log.e("TCP", ">=TCP结束连接线程=<");
@@ -108,6 +111,11 @@ public class TCPSocketConnect implements Runnable {
         Log.w("TCP", ">TCP重置连接<  flag:  " + flag);
         writeRunnable.stop();// 发送停止信息
         mSocket.disconnect();
+    }
+
+
+    public boolean isConnect() {
+        return mSocket.isConnected();
     }
 
     /**
@@ -177,11 +185,12 @@ public class TCPSocketConnect implements Runnable {
 
         /**
          * 添加数据到发送队列
+         * 前提条件是 当前为连接状态下...
          *
          * @param buffer 数据字节
          */
         public void write(byte[] buffer) {
-            if (!isWrite) return;
+            if (!isConnect()) return;
             synchronized (wlock) {
                 datas.add(buffer);// 将发送数据添加到发送队列
                 wlock.notify();// 取消等待
