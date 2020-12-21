@@ -9,10 +9,10 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.example.mylibrarystogithub"
-        minSdkVersion 24
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
-        versionName "V1.3"
+        versionName "V1.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
