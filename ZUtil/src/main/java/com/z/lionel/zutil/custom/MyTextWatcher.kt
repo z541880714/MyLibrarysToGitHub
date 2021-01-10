@@ -1,10 +1,13 @@
 package com.z.lionel.zutil.custom
 
+import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.widget.EditText
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
 
 
 /**
@@ -13,6 +16,32 @@ import android.widget.EditText
 fun EditText.addTextWatcher(callback: (String) -> Unit) {
     this.addTextChangedListener(MyTextWatcher(callback))
 }
+
+private var editJob: Job = Job()
+fun EditText.submitContent(
+    format: Regex,
+    normalColor: Int = Color.BLACK,
+    errorColor: Int = Color.RED,
+    callback: (String) -> Unit,
+    submit: (String) -> Unit
+) {
+    addTextWatcher {
+        callback(it)
+        if (format.matches(it)) {
+            MainScope().launch { setTextColor(normalColor) }
+            editJob.cancel()
+            editJob = CoroutineScope(IO).launch {
+                delay(1000)
+                submit(it)
+            }
+        } else {
+            editJob.cancel()
+            MainScope().launch { setTextColor(errorColor) }
+        }
+    }
+
+}
+
 
 var EditText.content: String
     set(value) {

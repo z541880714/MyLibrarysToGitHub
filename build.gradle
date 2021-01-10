@@ -1,6 +1,8 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+
 buildscript {
+
     ext.kotlin_version = '1.3.72'
     repositories {
         maven { url 'https://maven.aliyun.com/nexus/content/repositories/google' }
@@ -26,12 +28,56 @@ allprojects {
         google()
         jcenter()
 
+        maven {
+            url 'https://maven.aliyun.com/repository/public'
+        }
+        maven {
+            credentials {
+                username '5fd48699d3c4ecfbf3a6ef05'
+                password 'PcIg=BzTq=r_'
+            }
+            url 'https://packages.aliyun.com/maven/repository/2057314-release-fFzU64/'
+        }
+        maven {
+            credentials {
+                username '5fd48699d3c4ecfbf3a6ef05'
+                password 'PcIg=BzTq=r_'
+            }
+            url 'https://packages.aliyun.com/maven/repository/2057314-snapshot-CFwYie/'
+        }
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+group 'com.example.mylibrarystogithub'
+version '1.4'
+def artifactId = 'mylibrarystogithub'
+
+apply plugin: 'maven'
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: 'https://packages.aliyun.com/maven/repository/2057314-release-fFzU64/') {
+                authentication(
+                        userName: '5fd48699d3c4ecfbf3a6ef05',
+                        password: 'PcIg=BzTq=r_'
+                )
+            }
+            /*snapshotRepository(url: 'https://packages.aliyun.com/maven/repository/2057314-snapshot-CFwYie/') {
+                authentication(
+                        userName: '5fd48699d3c4ecfbf3a6ef05',
+                        password: 'PcIg=BzTq=r_'
+                )
+            }*/
+            pom.version = "$project.version"
+            pom.artifactId = "$artifactId"
+            pom.groupId = "$project.group"
+        }
+    }
 }
+
+//task clean(type: Delete) {
+//    delete rootProject.buildDir
+//}
 
 
 

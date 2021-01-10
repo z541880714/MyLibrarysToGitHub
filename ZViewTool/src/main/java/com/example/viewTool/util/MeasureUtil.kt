@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Point
 import android.graphics.Rect
+import android.os.Build
 import android.util.DisplayMetrics
 import android.util.Log
 import android.util.Size
@@ -38,7 +39,11 @@ fun Activity.getFullScreenSize(): Size = window.decorView.measureView()
 fun Activity.getStatusBarSize(): Size {
     val frame = Rect()
     window.decorView.getWindowVisibleDisplayFrame(frame);
-    return Size(frame.width(), frame.height())
+    return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        Size(frame.width(), frame.height())
+    } else {
+        TODO("VERSION.SDK_INT < LOLLIPOP")
+    }
 }
 
 /**

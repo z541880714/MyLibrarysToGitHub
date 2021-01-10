@@ -7,7 +7,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.5"
@@ -26,65 +26,38 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.3.72"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-
 }
 
 
-project.tasks.whenTaskAdded { Task task ->
-    if (task.name == 'assembleRelease')
-        task.doLast {
-            moveAar()
-        }
-}
+group 'com.z.lionel.zutil'
+version '1.6.1'
+def artifactId = 'zutil'
 
-def moveAar() {
-    copyAar()
-    deleteAar()
-}
-
-//将 aar 自动从build 目录 复制到 aarOut 目录下..
-def copyAar() {
-    println "copyArr_________________________"
-    String sourcePath = "${rootDir}/ZUtil/build/outputs/aar"
-    String targetPath = "${rootDir}/output"
-    println "the source file's path is ${path}"
-    copy() {
-        CopySpec copySpec ->
-
-            //from 是一个方法，指定拷贝的源文件/文件夹>file("app/build/output/apk") 是方法的参数
-            from file(sourcePath)
-            //into 是一个方法：指定拷贝的目的地>拷贝到根工程的output目录下
-            into targetPath
-            //重命名拷贝的文件名字
-            rename {
-                String srcFileName ->
-                    String suffix
-                    if (srcFileName.contains("debug")) suffix = "debug"
-                    else suffix = "release"
-                    "ZUtil_${suffix}.aar"
+apply plugin: 'maven'
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: 'https://packages.aliyun.com/maven/repository/2057314-release-fFzU64/') {
+                authentication(
+                        userName: '5fd48699d3c4ecfbf3a6ef05',
+                        password: 'PcIg=BzTq=r_'
+                )
             }
-
-            //移除不需要拷贝的内容
-            //${targetPath}/*debug.aar
-            exclude "**/*debug.aar"
-    }
-}
-
-def deleteAar() {
-    String sourcePath = "${rootDir}/ZUtil/build/outputs/aar"
-    println "deleteAar_______________________________"
-    fileTree(sourcePath) { ConfigurableFileTree configurableFileTree ->
-        //遍历
-        configurableFileTree.visit { FileVisitDetails fileVisitDetails ->
-            //在这里操作文件...
-            println "the file's name is ${fileVisitDetails.getFile().path}"
-            delete(fileVisitDetails.getFile())
+            snapshotRepository(url: 'https://packages.aliyun.com/maven/repository/2057314-snapshot-CFwYie/') {
+                authentication(
+                        userName: '5fd48699d3c4ecfbf3a6ef05',
+                        password: 'PcIg=BzTq=r_'
+                )
+            }
+            pom.version = "$project.version"
+            pom.artifactId = "$artifactId"
+            pom.groupId = "$project.group"
         }
     }
 }
+
 

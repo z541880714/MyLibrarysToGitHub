@@ -1,18 +1,17 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+//apply from: "$buildDir/../uploadArchives.gradle"
 
 android {
     compileSdkVersion 28
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.example.mylibrarystogithub"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
-        versionName "V1.4"
+        versionName "1.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -31,6 +30,10 @@ android {
     androidExtensions {
         experimental = true
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -46,3 +49,6 @@ dependencies {
     implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0'
     testImplementation 'junit:junit:4.12'
 }
+
+
+
